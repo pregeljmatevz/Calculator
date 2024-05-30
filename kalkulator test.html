@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator</title>
+    <style>
+        #calculator-container {
+            background-color: black;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #calculator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #display {
+            margin-bottom: 10px;
+            padding: 20px;
+            font-size: 36px;
+            text-align: right;
+            width: 200px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+
+        #keys {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            gap: 5px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 28px;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        .operator {
+            background-color: #FFA500;
+            color: white;
+        }
+
+        .clear {
+            background-color: darkorange;
+            color: white;
+            grid-column: 3 / span 2;
+            grid-row: 5;
+        }
+
+        .equals {
+            background-color: darkorange;
+            color: white;
+            grid-column: span 2;
+            grid-row: 5;
+        }
+
+        #keys button:nth-child(13) {
+            grid-column: 1 / span 2;
+            grid-row: 4;
+        }
+
+        #keys button:nth-child(16) {
+            grid-column: 3 / span 2;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator-container">
+        <div id="calculator">
+            <input id="display" readonly>
+            <div id="keys">
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button class="operator" onclick="appendToDisplay('+')">+</button>
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button class="operator" onclick="appendToDisplay('-')">-</button>
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button class="operator" onclick="appendToDisplay('*')">*</button>
+                <button onclick="appendToDisplay('0')" style="grid-column: span 2;">0</button>
+                <button class="operator" onclick="appendToDisplay('/')">/</button>
+                <button class="operator" onclick="appendToDisplay('.')">.</button>
+                <button class="clear" onclick="clearDisplay()">C</button>
+                <button class="equals" onclick="calculate()">=</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add event listener to the document for key presses
+        document.addEventListener('keydown', function(event) {
+            // Get the key that was pressed
+            var key = event.key;
+            
+            // Check if the pressed key is a digit or an operator
+            if (!isNaN(key) || ['+', '-', '*', '/', '.'].includes(key)) {
+                // If it's a digit or an operator, append it to the display
+                appendToDisplay(key);
+            } else if (key === 'Enter') {
+                // If Enter key is pressed, calculate the result
+                calculate();
+            } else if (key === 'Escape') {
+                // If Escape key is pressed, clear the display
+                clearDisplay();
+            } else if (key === 'Backspace') {
+                // If Backspace key is pressed, delete the last character
+                deleteLastCharacter();
+            }
+        });
+    
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+        
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+    
+        function calculate() {
+            var result = eval(document.getElementById('display').value);
+            document.getElementById('display').value = result;
+        }
+    
+        function deleteLastCharacter() {
+            var displayValue = document.getElementById('display').value;
+            document.getElementById('display').value = displayValue.slice(0, -1);
+        }
+    </script>
+    
+</body>
+</html>
